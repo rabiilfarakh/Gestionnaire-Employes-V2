@@ -1,19 +1,46 @@
 package users;
 
 import enumeration.Role;
-
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
+@Entity
+@Table(name = "users")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String phone;
+
+    @Temporal(TemporalType.DATE)
     private Date birthdate;
+
+    @Column(nullable = false)
     private String cin;
+
+    @Enumerated(EnumType.STRING)
     private Role role;
+
+    public User() {
+    }
+
+    public User(String name, String email){
+        this.name = name;
+        this.email = email;
+    }
 
     public User(String name, String email, String password, String phone, Date birthdate, String cin, Role role) {
         this.name = name;
@@ -25,6 +52,7 @@ public class User {
         this.role = role;
     }
 
+    // Getters et setters
     public UUID getId() {
         return id;
     }
