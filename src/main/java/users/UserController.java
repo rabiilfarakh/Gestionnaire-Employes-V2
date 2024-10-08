@@ -4,6 +4,12 @@ import users.dao.UserDaoImpl;
 import users.service.UserService;
 import users.service.UserServiceImpl;
 
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.NameCallback;
+import javax.security.auth.callback.PasswordCallback;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,12 +34,31 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        User user = new User(username, password);
-        userService.registerUser(user);
-
-        response.sendRedirect("UserController?action=list");
+        LoginContext loginContext = null;
+        try {
+            loginContext = new LoginContext("MyLoginModule", new CallbackHandler() {
+                @Override
+                public void handle(Callback[] callbacks) throws IOException {
+                    for (Callback callback : callbacks) {
+                        if (callback instanceof NameCallback) {
+                            ((NameCallback) callback).setName(email);
+                        } else if (callback instanceof PasswordCallback) {
+                            ((PasswordCallback) callback).setPassword(password.toCharArray());
+                        }
+                    }
+                }
+            });
+            loginContext.login();
+            // Authentification réussie
+            request.getRequestDispatcher("welcome.jsp").forward(request, response);
+        } catch (LoginException e) {
+            // Authentification échouée
+            request.setAttribute("errorMessage", e.getMessage());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
     }
+
 }

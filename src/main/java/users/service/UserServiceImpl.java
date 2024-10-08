@@ -42,7 +42,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void login(String email, String password) {
+        userDao.login(email,password);
+    }
 
+    @Override
+    public User getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
     }
 }
 

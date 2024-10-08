@@ -2,6 +2,7 @@ package users.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import users.User;
 
@@ -65,6 +66,18 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void login(String email, String password) {
 
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
 }

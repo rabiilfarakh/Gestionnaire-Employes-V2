@@ -17,4 +17,6 @@ public interface UserDao {
     void deleteUser(UUID id);
 
     void login(String email, String password);
+
+    User getUserByEmail(String email);
 }
