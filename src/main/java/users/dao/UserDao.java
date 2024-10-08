@@ -15,4 +15,6 @@ public interface UserDao {
     void updateUser(User user);
 
     void deleteUser(UUID id);
+
+    void login(String email, String password);
 }

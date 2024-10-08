@@ -11,8 +11,8 @@ public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
 
-    public UserServiceImpl() {
-        this.userDao = new UserDaoImpl();
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void removeUser(UUID id) {
         userDao.deleteUser(id);
+    }
+
+    @Override
+    public void login(String email, String password) {
+
     }
 }
 

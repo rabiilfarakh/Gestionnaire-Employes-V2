@@ -62,4 +62,9 @@ public class UserDaoImpl implements UserDao {
         em.close();
     }
 
+    @Override
+    public void login(String email, String password) {
+
     }
+
+}
