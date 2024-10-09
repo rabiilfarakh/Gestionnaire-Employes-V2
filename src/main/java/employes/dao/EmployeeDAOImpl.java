@@ -4,17 +4,16 @@ import employes.Employee;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
-import users.User;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class EmployeeDaoImpl implements EmployeeDao{
+public class EmployeeDAOImpl implements EmployeeDAO {
 
     private EntityManagerFactory entityManagerFactory;
 
-    public EmployeeDaoImpl(EntityManagerFactory entityManagerFactory) {
+    public EmployeeDAOImpl(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }
 
@@ -32,7 +31,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
     @Override
     public List<Employee> getAllEmployees() {
         try(EntityManager em = entityManagerFactory.createEntityManager()){
-            return em.createQuery("SELECT e FROM employes e",Employee.class).getResultList();
+            return em.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
         }catch (PersistenceException e){
             e.printStackTrace();
             return null;
@@ -73,4 +72,15 @@ public class EmployeeDaoImpl implements EmployeeDao{
             e.printStackTrace();
         }
     }
+
+    @Override
+    public List<String> getDistinctDepartments() {
+        try(EntityManager em = entityManagerFactory.createEntityManager()){
+            return em.createQuery("SELECT DISTINCT e.department FROM Employee e", String.class).getResultList();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

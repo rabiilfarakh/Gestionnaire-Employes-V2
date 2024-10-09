@@ -17,4 +17,6 @@ public interface EmployeeService {
     void updateEmployee(Employee employee);
 
     void deleteEmployee(UUID id);
+
+    List<String> getDistinctDepartments();
 }

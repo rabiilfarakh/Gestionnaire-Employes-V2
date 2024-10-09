@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface EmployeeDao {
+public interface EmployeeDAO {
 
     void saveEmployee(Employee employee);
 
@@ -18,4 +18,5 @@ public interface EmployeeDao {
 
     void deleteEmployee(UUID id);
 
+    List<String> getDistinctDepartments();
 }

@@ -1,7 +1,7 @@
 package employes.service;
 
 import employes.Employee;
-import employes.dao.EmployeeDao;
+import employes.dao.EmployeeDAO;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.UUID;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeDao employeeDao;
+    private EmployeeDAO employeeDao;
 
-    public EmployeeServiceImpl(EmployeeDao employeeDao) {
+    public EmployeeServiceImpl(EmployeeDAO employeeDao) {
         this.employeeDao = employeeDao;
     }
 
@@ -40,4 +40,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void deleteEmployee(UUID id) {
         employeeDao.deleteEmployee(id);
     }
+
+    @Override
+    public List<String> getDistinctDepartments() {
+        return employeeDao.getDistinctDepartments();
+    }
+
+
 }

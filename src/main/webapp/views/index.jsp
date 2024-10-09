@@ -24,3 +24,7 @@
         </form>
         <div class="links">
             <a href="#">Forget Username Password?</a><br>
+        </div>
+    </div>
+</body>
+</html>
