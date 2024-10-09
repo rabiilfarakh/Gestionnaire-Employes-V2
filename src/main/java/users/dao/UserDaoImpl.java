@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceException;
 import users.User;
 
 import java.util.List;
@@ -19,65 +20,76 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void saveUser(User user) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(user);
-        em.getTransaction().commit();
-        em.close();
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<User> getAllUsers() {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        List<User> users = em.createQuery("SELECT u FROM User u", User.class).getResultList();
-        em.close();
-        return users;
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public User getUserById(UUID id) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        User user = em.find(User.class, id);
-        em.close();
-        return user;
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            return em.find(User.class, id);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public void updateUser(User user) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.merge(user);
-        em.getTransaction().commit();
-        em.close();
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            em.getTransaction().begin();
+            em.merge(user);
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteUser(UUID id) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        User user = em.find(User.class, id);
-        if (user != null) {
-            em.remove(user);
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            em.getTransaction().begin();
+            User user = em.find(User.class, id);
+            if (user != null) {
+                em.remove(user);
+            }
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
         }
-        em.getTransaction().commit();
-        em.close();
     }
 
     @Override
     public void login(String email, String password) {
-
+        // Implementation needed
     }
 
     @Override
     public User getUserByEmail(String email) {
-
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
             return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
                     .setParameter("email", email)
                     .getSingleResult();
         } catch (NoResultException e) {
+            return null; // No user found
+        } catch (PersistenceException e) {
+            e.printStackTrace();
             return null;
         }
     }
-
 }
