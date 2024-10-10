@@ -12,7 +12,7 @@ body {
 /* Titres */
 h2 {
     text-align: center;
-    color: #4CAF50;
+    color: #000; /* Noir */
 }
 
 /* Formulaire */
@@ -43,12 +43,12 @@ input[type="email"] {
 
 input[type="text"]:focus,
 input[type="email"]:focus {
-    border-color: #4CAF50;
+    border-color: #000; /* Noir lors du focus */
 }
 
 /* Bouton de soumission */
 input[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #000; /* Noir */
     color: white;
     border: none;
     padding: 10px 15px;
@@ -60,7 +60,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #333; /* Gris foncé au survol */
 }
 
 /* Lien de retour */
@@ -69,7 +69,7 @@ a {
     text-align: center;
     margin-top: 20px;
     text-decoration: none;
-    color: #4CAF50;
+    color: #000; /* Noir */
 }
 
 a:hover {

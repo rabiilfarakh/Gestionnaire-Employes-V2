@@ -15,7 +15,6 @@
 <body>
 
 <h1>Liste des Employés</h1>
-<p>Nombre d'employés: <%= request.getAttribute("employees") != null ? ((List<Employee>) request.getAttribute("employees")).size() : 0 %></p>
 
 <div class="controls">
     <form action="employees" method="get" style="display:inline;">
@@ -29,7 +28,6 @@
         <select name="departmentFilter" id="departmentFilter" onchange="this.form.submit();">
             <option value="">Sélectionner un département</option>
             <%
-                // Récupération des départements distincts
                 List<String> distinctDepartments = (List<String>) request.getAttribute("distinctDepartments");
                 if (distinctDepartments != null) {
                     for (String department : distinctDepartments) {
@@ -50,8 +48,11 @@
             <th>Nom</th>
             <th>Email</th>
             <th>Téléphone</th>
+            <th>Date de Naissance</th>
+            <th>CIN</th>
             <th>Département</th>
             <th>Poste</th>
+            <th>Salaire</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -73,10 +74,14 @@
                 <td><%= employee.getName() %></td>
                 <td><%= employee.getEmail() %></td>
                 <td><%= employee.getPhone() %></td>
+                <td><%= employee.getBirthdate() != null ? employee.getBirthdate() : "Non spécifiée" %></td>
+                <td><%= employee.getCin() != null ? employee.getCin() : "Non spécifié" %></td>
                 <td><%= employee.getDepartment() != null ? employee.getDepartment() : "Non spécifié" %></td>
                 <td><%= employee.getPosition() %></td>
+                <td><%= employee.getSalary() != null ? employee.getSalary() : "Non spécifié" %></td>
+
                 <td>
-                    <form action="employees" method="get" style="display:inline;">
+                    <form action="employees" method="post" style="display:inline;">
                         <input type="hidden" name="action" value="edit">
                         <input type="hidden" name="id" value="<%= employee.getId() %>">
                         <button type="submit">Mettre à Jour</button>
