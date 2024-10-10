@@ -5,7 +5,7 @@ import users.User;
 import java.util.List;
 import java.util.UUID;
 
-public interface UserDao {
+public interface UserDAO {
     void saveUser(User user);
 
     List<User> getAllUsers();

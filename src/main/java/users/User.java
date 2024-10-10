@@ -2,16 +2,19 @@ package users;
 
 import enumeration.Role;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(nullable = false)
@@ -38,7 +41,7 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email){
+    public User(String name, String email) {
         this.name = name;
         this.email = email;
     }
@@ -51,11 +54,6 @@ public class User {
         this.birthdate = birthdate;
         this.cin = cin;
         this.role = role;
-    }
-
-    // Getters et setters
-    public UUID getId() {
-        return id;
     }
 
     public void setId(UUID id) {

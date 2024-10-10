@@ -10,11 +10,11 @@ import users.User;
 import java.util.List;
 import java.util.UUID;
 
-public class UserDaoImpl implements UserDao {
+public class UserDAOImpl implements UserDAO {
 
     private EntityManagerFactory entityManagerFactory;
 
-    public UserDaoImpl() {
+    public UserDAOImpl(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
     }
 

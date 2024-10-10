@@ -1,6 +1,8 @@
 package users;
 
-import users.dao.UserDaoImpl;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import users.dao.UserDAOImpl;
 import users.service.UserService;
 import users.service.UserServiceImpl;
 
@@ -17,14 +19,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
 @WebServlet("/views")
 public class UserController extends HttpServlet {
 
     private UserService userService;
+    private EntityManagerFactory entityManagerFactory;
 
-    public void init() throws ServletException{
-        userService = new UserServiceImpl(new UserDaoImpl());
+    @Override
+    public void init() throws ServletException {
+        entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+        userService = new UserServiceImpl(new UserDAOImpl(entityManagerFactory));
+    }
+
+    @Override
+    public void destroy() {
+        if (entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
     }
 
     @Override
@@ -37,7 +48,7 @@ public class UserController extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        LoginContext loginContext = null;
+        LoginContext loginContext;
         try {
             loginContext = new LoginContext("MyLoginModule", new CallbackHandler() {
                 @Override
@@ -52,13 +63,12 @@ public class UserController extends HttpServlet {
                 }
             });
             loginContext.login();
-            // Authentification réussie
+            // Successful authentication
             request.getRequestDispatcher("welcome.jsp").forward(request, response);
         } catch (LoginException e) {
-            // Authentification échouée
-            request.setAttribute("errorMessage", e.getMessage());
+            // Failed authentication
+            request.setAttribute("errorMessage", "Authentication failed: " + e.getMessage());
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }
     }
-
 }

@@ -1,15 +1,14 @@
 package employes;
 
 import enumeration.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import users.User;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "employees")
-public class Employee extends users.User {
+public class Employee extends User {
 
     @Column(nullable = false)
     private String position;
@@ -23,12 +22,20 @@ public class Employee extends users.User {
     public Employee() {
     }
 
+    public Employee(String name, String email, String position, String department, Double salary) {
+        super(name, email);
+        this.position = position;
+        this.department = department;
+        this.salary = salary;
+    }
+
     public Employee(String name, String email, String password, String phone, Date birthdate, String cin, Role role, String position, String department, Double salary) {
         super(name, email, password, phone, birthdate, cin, role);
         this.position = position;
         this.department = department;
         this.salary = salary;
     }
+
 
     public String getPosition() {
         return position;
