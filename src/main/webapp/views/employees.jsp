@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@ page import="java.util.List" %>
+<%@ page import="employes.Employee" %>
 
 <!DOCTYPE html>
-
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Employés</title>
     <link rel="stylesheet" type="text/css" href="../css/employes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
@@ -15,76 +15,87 @@
 <body>
 
 <h1>Liste des Employés</h1>
-<p>Nombre d'employés: ${fn:length(employees)}</p>
-
+<p>Nombre d'employés: <%= request.getAttribute("employees") != null ? ((List<Employee>) request.getAttribute("employees")).size() : 0 %></p>
 
 <div class="controls">
-    <form action="employees" method="get">
+    <form action="employees" method="get" style="display:inline;">
         <input type="hidden" name="action" value="search">
         <input type="text" name="searchInput" placeholder="Rechercher un employé...">
+        <button type="submit">Rechercher</button>
     </form>
 
-    <form action="employees" method="get">
+    <form action="employees" method="get" style="display:inline;">
         <input type="hidden" name="action" value="filter">
         <select name="departmentFilter" id="departmentFilter" onchange="this.form.submit();">
             <option value="">Sélectionner un département</option>
-            <c:forEach var="department" items="${distinctDepartments}">
-                <option value="${department}">${department}</option>
-            </c:forEach>
+            <%
+                // Récupération des départements distincts
+                List<String> distinctDepartments = (List<String>) request.getAttribute("distinctDepartments");
+                if (distinctDepartments != null) {
+                    for (String department : distinctDepartments) {
+            %>
+                <option value="<%= department %>"><%= department %></option>
+            <%
+                    }
+                }
+            %>
         </select>
     </form>
 </div>
 
 <table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Nom</th>
-        <th>Email</th>
-        <th>Téléphone</th>
-        <th>Département</th>
-        <th>Poste</th>
-        <th>Actions</th>
-    </tr>
-
-    <c:choose>
-        <c:when test="${empty employees}">
+    <thead>
+        <tr>
+            <th>Compte</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Département</th>
+            <th>Poste</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%
+            List<Employee> employees = (List<Employee>) request.getAttribute("employees");
+            if (employees == null || employees.isEmpty()) {
+        %>
             <tr>
                 <td colspan="7">Aucun employé trouvé.</td>
             </tr>
-        </c:when>
-        <c:otherwise>
-            <c:forEach var="employee" items="${employees}">
-                <tr>
-                    <td>${employee.idEmployee}</td>
-                    <td>${employee.name}</td>
-                    <td>${employee.email}</td>
-                    <td>${employee.phone}</td>
-                    <td>
-                        <c:if test="${employee.departement != null}">
-                            ${employee.departement}
-                        </c:if>
-                        <c:if test="${employee.departement == null}">
-                            Non spécifié
-                        </c:if>
-                    </td>
-                    <td>${employee.poste}</td>
-                    <td>
-                        <form action="employees" method="get" style="display:inline;">
-                            <input type="hidden" name="action" value="edit">
-                            <input type="hidden" name="id" value="${employee.idEmployee}">
-                            <button type="submit">Mettre à Jour</button>
-                        </form>
-                        <form action="employees" method="post" style="display:inline;">
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="id" value="${employee.idEmployee}">
-                            <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet employé ?');">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
-            </c:forEach>
-        </c:otherwise>
-    </c:choose>
-</table><br>
+        <%
+            } else {
+                int count = 1; // Initialisation du compteur
+                for (Employee employee : employees) {
+        %>
+            <tr>
+                <td><%= count++ %></td>
+                <td><%= employee.getName() %></td>
+                <td><%= employee.getEmail() %></td>
+                <td><%= employee.getPhone() %></td>
+                <td><%= employee.getDepartment() != null ? employee.getDepartment() : "Non spécifié" %></td>
+                <td><%= employee.getPosition() %></td>
+                <td>
+                    <form action="employees" method="get" style="display:inline;">
+                        <input type="hidden" name="action" value="edit">
+                        <input type="hidden" name="id" value="<%= employee.getId() %>">
+                        <button type="submit">Mettre à Jour</button>
+                    </form>
+                    <form action="employees" method="post" style="display:inline;">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="id" value="<%= employee.getId() %>">
+                        <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet employé ?');">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        <%
+                }
+            }
+        %>
+    </tbody>
+</table>
+
+<br>
 
 <form action="addEmployee.jsp">
     <button type="submit">Ajouter un Employé</button>
