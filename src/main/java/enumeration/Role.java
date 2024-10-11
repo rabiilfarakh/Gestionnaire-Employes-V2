@@ -1,5 +1,5 @@
 package enumeration;
 
 public enum Role {
-    Employee,Recruter,Candidate
+    Employee,Recruter,Admin,Candidat
 }

@@ -1,13 +1,17 @@
 package users.dao;
 
+import enumeration.Role;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceException;
+import org.mindrot.jbcrypt.BCrypt;
 import users.User;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class UserDAOImpl implements UserDAO {
@@ -72,11 +76,6 @@ public class UserDAOImpl implements UserDAO {
         } catch (PersistenceException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void login(String email, String password) {
-        // Implementation needed
     }
 
     @Override

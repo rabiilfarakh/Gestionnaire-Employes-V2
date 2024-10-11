@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/views")
+@WebServlet("/WEB-INF/views")
 public class UserController extends HttpServlet {
 
     private UserService userService;

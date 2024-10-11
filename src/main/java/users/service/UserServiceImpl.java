@@ -1,9 +1,14 @@
 package users.service;
 
+import enumeration.Role;
+import jakarta.persistence.PersistenceException;
+import org.mindrot.jbcrypt.BCrypt;
 import users.User;
 import users.dao.UserDAO;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class UserServiceImpl implements UserService {
@@ -41,8 +46,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void login(String email, String password) {
-        userDao.login(email,password);
+    public User login(String email, String password) {
+        try {
+            User user = getUserByEmail(email);
+            if (user != null && BCrypt.checkpw(password, user.getPassword())) {
+                return user;
+            }
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

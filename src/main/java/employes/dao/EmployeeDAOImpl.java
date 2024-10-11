@@ -31,7 +31,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public List<Employee> getAllEmployees() {
         try(EntityManager em = entityManagerFactory.createEntityManager()){
-            return em.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
+            return em.createQuery("SELECT e FROM Employee e WHERE e.role = 'Employee'", Employee.class).getResultList();
+
         }catch (PersistenceException e){
             e.printStackTrace();
             return null;
