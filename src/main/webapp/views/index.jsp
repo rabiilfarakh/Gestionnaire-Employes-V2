@@ -11,9 +11,9 @@
     <div class="login-container">
         <h2>Welcome</h2>
 
-        <form action="#" method="post">
+        <form action="login" method="post">
             <div class="input-group">
-                <input type="text" id="username" name="username" placeholder="Username" required>
+                <input type="text" id="email" name="email" placeholder="Email" required> <!-- Changez "username" à "email" -->
             </div>
             <div class="input-group">
                 <input type="password" id="password" name="password" placeholder="Password" required>

@@ -84,6 +84,7 @@ public class UserDAOImpl implements UserDAO {
             return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
                     .setParameter("email", email)
                     .getSingleResult();
+
         } catch (NoResultException e) {
             return null; // No user found
         } catch (PersistenceException e) {

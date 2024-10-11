@@ -60,4 +60,13 @@ public class Employee extends User {
     public void setSalary(Double salary) {
         this.salary = salary;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " Employee{" +
+                "position='" + position + '\'' +
+                ", department='" + department + '\'' +
+                ", salary=" + salary +
+                '}';
+    }
 }
