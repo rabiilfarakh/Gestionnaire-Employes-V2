@@ -1,4 +1,4 @@
-package jobOffers.service;
+package jobOffers.dao;
 
 import jobOffers.JobOffer;
 
@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface JobOfferService {
+public interface JobOfferDAO {
 
     void save(JobOffer employee);
 
     List<JobOffer> getAll();
 
-    JobOffer get(UUID id);
+    Optional<JobOffer> get(UUID id);
 
     void update(JobOffer employee);
 
