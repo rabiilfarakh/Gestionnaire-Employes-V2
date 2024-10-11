@@ -1,3 +1,7 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="jobOffers.JobOffer" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -24,8 +28,8 @@
         <div class="container">
             <h2>Trouvez l'emploi qui vous correspond</h2>
             <form>
-                <input type="text" placeholder="Quel metier ?">
-                <input type="text" placeholder="Ou ?">
+                <input type="text" placeholder="Quel métier ?">
+                <input type="text" placeholder="Où ?">
                 <button type="submit">Rechercher</button>
             </form>
         </div>
@@ -33,51 +37,30 @@
 
     <section class="recommended-jobs">
         <div class="container">
-            <h2>Offres d'emploi recommandees</h2>
+            <h2>Offres d'emploi recommandées</h2>
             <div class="job-list">
-                <!-- Les offres d'emploi iront ici -->
-                <div class="job">
-                    <h3>Developpeur Web</h3>
-                    <p>Entreprise: Tech Corp</p>
-                    <p>Localisation: Paris</p>
-                    <button>Postuler</button>
-                </div>
-                <div class="job">
-                    <h3>Chef de Projet IT</h3>
-                    <p>Entreprise: Innovatech</p>
-                    <p>Localisation: Lyon</p>
-                    <button>Postuler</button>
-                </div>
-                <div class="job">
-                    <h3>Designer UI/UX</h3>
-                    <p>Entreprise: Creative Studios</p>
-                    <p>Localisation: Marseille</p>
-                    <button>Postuler</button>
-                </div>
-                <div class="job">
-                    <h3>Developpeur Mobile</h3>
-                    <p>Entreprise: AppWorks</p>
-                    <p>Localisation: Nice</p>
-                    <button>Postuler</button>
-                </div>
-                <div class="job">
-                    <h3>Data Scientist</h3>
-                    <p>Entreprise: DataLab</p>
-                    <p>Localisation: Toulouse</p>
-                    <button>Postuler</button>
-                </div>
-                <div class="job">
-                    <h3>Ingenieur DevOps</h3>
-                    <p>Entreprise: CloudOps</p>
-                    <p>Localisation: Nantes</p>
-                    <button>Postuler</button>
-                </div>
-                <div class="job">
-                    <h3>Architecte Logiciel</h3>
-                    <p>Entreprise: CodeMaster</p>
-                    <p>Localisation: Bordeaux</p>
-                    <button>Postuler</button>
-                </div>
+                <!-- Boucle pour afficher dynamiquement les offres d'emploi -->
+                <%
+                    List<JobOffer> jobOffers = (List<JobOffer>) request.getAttribute("jobOffers");
+                    if (jobOffers != null) {
+                        for (JobOffer jobOffer : jobOffers) {
+                %>
+                    <div class="job">
+                        <h3><%= jobOffer.getTitle() %></h3>
+                        <p>Entreprise: </p>
+                        <p>Localisation: <%= jobOffer.getLocation() %></p>
+                        <p>Salaire: <%= jobOffer.getSalary() %> €</p>
+                        <p>Type de contrat: <%= jobOffer.getContrat() %></p>
+                        <button>Postuler</button>
+                    </div>
+                <%
+                        }
+                    } else {
+                %>
+                    <p>Aucune offre d'emploi disponible.</p>
+                <%
+                    }
+                %>
             </div>
             <!-- Pagination buttons -->
             <div class="pagination">
@@ -88,7 +71,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Emplois.ma. Tous droits reserves.</p>
+            <p>&copy; 2024 Emplois.ma. Tous droits réservés.</p>
         </div>
     </footer>
 </body>

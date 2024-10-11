@@ -21,10 +21,10 @@
         <div class="container">
             <h2>Créer une nouvelle offre d'emploi</h2>
             <!-- Formulaire pour la création d'une offre -->
-            <form action="CreateJobServlet" method="POST">
+            <form action="jobOffers" method="POST">
                 <div class="form-group">
                     <label for="jobTitle">Titre du poste :</label>
-                    <input type="text" id="jobTitle" name="jobTitle" placeholder="Titre du poste" required>
+                    <input type="text" id="jobTitle" name="title" placeholder="Titre du poste" required>
                 </div>
                 <div class="form-group">
                     <label for="companyName">Nom de l'entreprise :</label>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group">
                     <label for="jobType">Type de contrat :</label>
-                    <select id="jobType" name="jobType" required>
+                    <select id="contrat" name="contrat" required>
                         <option value="CDI">CDI</option>
                         <option value="CDD">CDD</option>
                         <option value="Stage">Stage</option>
