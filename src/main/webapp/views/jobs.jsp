@@ -51,7 +51,12 @@
                         <p>Localisation: <%= jobOffer.getLocation() %></p>
                         <p>Salaire: <%= jobOffer.getSalary() %> DH</p>
                         <p>Type de contrat: <%= jobOffer.getContrat() %></p>
-                        <button>Postuler</button>
+
+                        <form action="jobOffers" method="post">
+                            <input type="hidden" name="action" value="show">
+                            <input type="hidden" name="id" value="<%= jobOffer.getId() %>">
+                            <button type="submit">Postuler</button>
+                        </form>
                     </div>
                 <%
                         }
