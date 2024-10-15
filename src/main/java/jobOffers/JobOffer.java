@@ -2,6 +2,7 @@ package jobOffers;
 
 import enumeration.Contrat;
 import jakarta.persistence.*;
+import recruiters.Recruiter;
 
 import java.util.UUID;
 
@@ -28,10 +29,12 @@ public class JobOffer {
     @Enumerated(EnumType.STRING)
     private Contrat contrat;
 
+    @ManyToOne
+    @JoinColumn(name = "recruiter_id", nullable = false)
+    private Recruiter recruiter;
 
     public JobOffer() {
     }
-
 
     public JobOffer(String title, String location, String description, double salary, Contrat contrat) {
         this.title = title;
@@ -40,6 +43,17 @@ public class JobOffer {
         this.salary = salary;
         this.contrat = contrat;
     }
+
+
+    public JobOffer(String title, String location, String description, Double salary, Contrat contrat, Recruiter recruiter) {
+        this.title = title;
+        this.location = location;
+        this.description = description;
+        this.salary = salary;
+        this.contrat = contrat;
+        this.recruiter = recruiter;
+    }
+
 
     // Getters et Setters
     public UUID getId() {
@@ -88,5 +102,13 @@ public class JobOffer {
 
     public void setContrat(Contrat contrat) {
         this.contrat = contrat;
+    }
+
+    public Recruiter getRecruiter() {
+        return recruiter;
+    }
+
+    public void setRecruiter(Recruiter recruiter) {
+        this.recruiter = recruiter;
     }
 }

@@ -47,9 +47,9 @@
                 %>
                     <div class="job">
                         <h3><%= jobOffer.getTitle() %></h3>
-                        <p>Entreprise: </p>
+                        <p >Entreprise: <span style="color:blue;">IBM</span></p>
                         <p>Localisation: <%= jobOffer.getLocation() %></p>
-                        <p>Salaire: <%= jobOffer.getSalary() %> €</p>
+                        <p>Salaire: <%= jobOffer.getSalary() %> DH</p>
                         <p>Type de contrat: <%= jobOffer.getContrat() %></p>
                         <button>Postuler</button>
                     </div>

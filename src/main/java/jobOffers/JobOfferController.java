@@ -7,12 +7,15 @@ import jakarta.persistence.Persistence;
 import jobOffers.dao.JobOfferDAOImpl;
 import jobOffers.service.JobOfferService;
 import jobOffers.service.JobOfferServiceImpl;
+import recruiters.Recruiter;
+import users.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -89,8 +92,9 @@ public class JobOfferController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //String id = request.getParameter("id");
 
+        HttpSession session = request.getSession();
+        Recruiter recruiter = (Recruiter) session.getAttribute("user");
 
         String title =  request.getParameter("title");
         String location = request.getParameter("location");
@@ -98,7 +102,7 @@ public class JobOfferController extends HttpServlet {
         Double salary = Double.parseDouble(request.getParameter("salary"));
         Contrat contrat = Contrat.valueOf(request.getParameter("contrat"));
 
-        JobOffer jobOffer = new JobOffer(title,location,description,salary,contrat);
+        JobOffer jobOffer = new JobOffer(title,location,description,salary,contrat,recruiter);
         jobOfferService.save(jobOffer);
 
 

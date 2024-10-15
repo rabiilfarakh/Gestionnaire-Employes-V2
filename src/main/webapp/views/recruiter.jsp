@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="users.User" %>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -13,7 +14,16 @@
     <header>
         <div class="container">
             <h1>Emplois.ma - Espace Recruteur</h1><br>
-            <h2 id="nameR">Bonjour M. Rabii</h2>
+            <h2 id="nameR">Bonjour
+                    <%
+                        User user = (User) session.getAttribute("user");
+                        if (user != null) {
+                            out.print(user.getName().toUpperCase());
+                        } else {
+                            out.print("Utilisateur non connecté.");
+                        }
+                    %>
+                </h2>
         </div>
     </header>
 
