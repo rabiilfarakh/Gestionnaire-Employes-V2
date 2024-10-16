@@ -36,13 +36,18 @@
             <p><strong>Salaire:</strong> <%= jobOffer.getSalary() %> DH</p>
             <p><strong>Type de contrat:</strong> <%= jobOffer.getContrat() %></p>
             <p><strong>Description:</strong> <%= jobOffer.getDescription() %></p>
-        </div>
+        </div><br><br>
 
-        <form action="jobOffers" method="post">
+        <!-- Formulaire de candidature -->
+        <h2>Postuler à cette offre</h2>
+        <form action="jobOffers" method="post" enctype="multipart/form-data">
             <input type="hidden" name="action" value="apply">
             <input type="hidden" name="id" value="<%= jobOffer.getId() %>">
-            <button type="submit">Confirmer la candidature</button>
+            <label for="cv">Télécharger votre CV (PDF) :</label>
+            <input type="file" id="cv" name="cv" accept=".pdf" required>
+            <button type="submit">Postuler</button>
         </form>
+
     </div>
 </section>
 
