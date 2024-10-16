@@ -76,7 +76,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Emplois.ma. Tous droits réservés.</p>
+            <p>&copy; 2024 Emplois.ma Tous droits réservés.</p>
         </div>
     </footer>
 </body>
